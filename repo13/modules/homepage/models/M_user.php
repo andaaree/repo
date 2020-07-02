@@ -8,7 +8,19 @@ public function __construct()
 {
     parent::__construct();
     date_default_timezone_set('Asia/Jakarta');
-    
+}
+
+public function search($keywords)
+{   
+    $this->db->like('product_name',$keywords);
+    $this->db->or_like('product_price', $keywords);
+    $this->db->or_like('product_description', $keywords);
+    $this->db->or_like('category_name', $keywords);
+    $this->db->or_like('vendor_name', $keywords);
+    $this->db->join('category', 'products.product_category = category.category_id');
+    $this->db->join('vendor', 'vendor.vendor_id = products.product_vendor');
+    $qry = $this->db->get('products');
+    return $qry->result();
 }
 
 public function getAllProducts()
@@ -20,6 +32,12 @@ public function getAllProducts()
         $query=$this->db->get();
         return $query->result_array();
     }
+public function cekcartid()
+{
+    $query = $this->db->query("SELECT MAX(cart_id) as cartid from cart");
+        $hasil = $query->row();
+        return $hasil->cartid;
+}
 public function getAllCategory()
 {
     $this->db->select('*');
@@ -28,18 +46,7 @@ public function getAllCategory()
     $qry=$this->db->get();
     return $qry->result_array();
 }
-public function search($keywords)
-{   
-    $this->db->like('product_name',$keywords);    
-    $this->db->or_like('product_price', $keywords);
-    $this->db->or_like('product_description', $keywords);
-    $this->db->or_like('category_name', $keywords);
-    $this->db->or_like('vendor_name', $keywords);
-    $this->db->join('category', 'products.product_category = category.category_id');
-    $this->db->join('vendor', 'vendor.vendor_id = products.product_vendor');
-    $qry = $this->db->get();
-    return $qry->result();
-}
+
 public function getProductDetail($id)
 {
     $this->db->select('*'); // <-- There is never any reason to write this line!
@@ -49,6 +56,16 @@ public function getProductDetail($id)
     $this->db->join('vendor', 'products.product_vendor = vendor.vendor_id');
     $query=$this->db->get();
     return $query->result_array();
+}
+public function getProductToCart($id)
+{
+    $this->db->select('*'); // <-- There is never any reason to write this line!
+    $this->db->from('products');
+    $this->db->where('products.product_id', $id);
+    $this->db->join('category', 'products.product_category = category.category_id');
+    $this->db->join('vendor', 'products.product_vendor = vendor.vendor_id');
+    $query=$this->db->get();
+    return $query->row();
 }
 public function getProductCategory($id)
 {

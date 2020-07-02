@@ -32,8 +32,6 @@
                         <?php    
                         }    
                              0 ?>
-                        
-                        
 					</div><!--features_items-->
 					<ul class="pagination">
 							<li class="active"><a href="">1</a></li>

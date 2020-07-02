@@ -44,16 +44,15 @@ class Homepage extends CI_Controller {
         $data['title'] = "Products Catalog - Freuz E-Shop";
         $data['username'] = $this->session->userdata('username');
         $keywords = $this->input->post('keyword');
-        $data['prod'] = $this->m_user->search($keywords);
+
+        $prod = $this->m_user->search($keywords);
+        
         $data['cat'] = $this->m_user->getAllCategory();
         $data['tot'] = $this->m_user->getTotalProductVendor();
         $data['pagination'] = 1;
-        $this->load->view('template/home_header', $data);
-        $this->load->view('template/home_topbar', $data);
-        $this->load->view('template/home_menu');
-        $this->load->view('template/home_sidebar', $data);
-        $this->load->view('prod',$data);
-        $this->load->view('template/home_footer');
+        $res = $this->load->view('src',array('prod' => $prod));
+        $callback = array('res' => $res,);
+        echo json_encode($callback);
 
     }   
     public function product($id)
@@ -71,7 +70,7 @@ class Homepage extends CI_Controller {
         $this->load->view('template/home_footer');
     }
     public function products()
-    {   
+    {
         $query = "SELECT * FROM products";
     
         $this->load->library('pagination');
@@ -111,12 +110,12 @@ class Homepage extends CI_Controller {
         $data['username'] = $this->session->userdata('username');
         $data['cat'] = $this->m_user->getAllCategory();
         $data['tot'] = $this->m_user->getTotalProductVendor();
-        $this->load->view('template/home_header', $data);
-        $this->load->view('template/home_topbar', $data);
-        $this->load->view('template/home_menu');
-        $this->load->view('template/home_sidebar', $data);
+        $this->load->view('homepage/template/home_header', $data);
+        $this->load->view('homepage/template/home_topbar', $data);
+        $this->load->view('homepage/template/home_menu');
+        $this->load->view('homepage/template/home_sidebar', $data);
         $this->load->view('prod',$data);
-        $this->load->view('template/home_footer');
+        $this->load->view('homepage/template/home_footer');
     }
     
     public function brand($id)
@@ -149,9 +148,26 @@ class Homepage extends CI_Controller {
         $this->load->view('category',$data);
         $this->load->view('template/home_footer');
     }
-
+    public function addToCart($pid)
+    {
+        $dariDB = $this->m_user->cekcartid();
+		$nourut = substr($dariDB, 2, 4);
+		$cartidSekarang = $nourut + 1;
+        $data['cart_id'] = $cartidSekarang;
+        $prod = $this->m_user->getProductToCart($pid);
+        $uid = $this->session->userdata('id');
+        $data = array(
+            'cart_id'      => "C".sprintf("%04s",$data['cart_id']),
+            'users_id'     => $uid,
+            'product_id'   => $prod->product_id,
+            'quantity' => 1,
+        );
+        $this->db->insert('cart',$data);
+        redirect('homepage/products');
+    }
     public function e404()
     {   
+        $data['title'] = "Error 400000004";
         $data['denied'] = $this->session->flashdata('sukses');
         $this->load->view('template/home_header', $data);
         $this->load->view('404',$data);

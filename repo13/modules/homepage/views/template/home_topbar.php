@@ -69,8 +69,8 @@
 								<li><a href=""><i class="fa fa-user"></i> <?= $username?></a></li>
 								<li><a href="<?= base_url('login')?>/logout"><i class="fa fa-lock"></i> Logout</a></li>
 								<?php } ?>
-								<li><a href="<?= base_url('homepage')?>/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="<?= base_url('homepage')?>/order"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="<?= base_url('')?>/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="<?= base_url('')?>/order"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								
 							</ul>
 						</div>
