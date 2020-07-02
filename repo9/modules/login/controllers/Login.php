@@ -37,6 +37,7 @@ class Login extends CI_Controller {
 		if ($valid->run() == FALSE) {
 			$data['errors'] = $this->session->set_flashdata('<p> Anda belum mendaftar', '</p>');
 		}else {
+			$data['role'] = $this->session->userdata('role');
 			$this->splogin->login($username,$password);
 		}
 		$this->load->view('homepage/template/home_header', $data);

@@ -8,48 +8,19 @@ public function __construct()
 {
     parent::__construct();
     date_default_timezone_set('Asia/Jakarta');
-    
 }
 
-public function product_page()
+public function search($keywords)
 {   
-    
-    $query = "SELECT * FROM products";
-    
-    $this->load->library('pagination');
-    $config['base_url'] = base_url('homepage/products').'';
-    $config['total_rows'] = $this->db->query($query)->num_rows();
-    $config['per_page'] = 6;
-    $config['uri_segment'] = 3;
-    $config['num_links'] = 3;
-    $config['full_tag_open'] = '<ul class="pagination">';
-    $config['full_tag_close'] = '</ul>';
-    $config['first_link'] = '<span class="page-link">First</span>';
-    $config['first_tag_open'] = '<li>';
-    $config['first_tag_close'] = '</li>';
-    $config['last_link'] = '<span class="page-link">Last</span>';
-    $config['last_tag_open'] = '<li>';
-    $config['last_tag_close'] = '</li>';
-    $config['next_link'] = '&raquo;';
-    $config['next_tag_open'] = '<li>';
-    $config['next_tag_close'] = '</li>';
-    $config['prev_link'] = '&laquo;';
-    $config['prev_tag_open'] = '<li>';
-    $config['prev_tag_close'] = '</li>';
-    $config['cur_tag_open'] = '<li class="active"><a href="#">';
-    $config['cur_tag_close'] = '</a></li>';
-    $config['num_tag_open'] = '<li>';
-    $config['num_tag_close'] = '</li>';
-    // End style pagination
-    $this->pagination->initialize($config);
-    
-    $page = ($this->uri->segment($config['uri_segment'])) ? $this->uri->segment($config['uri_segment']) : 0;
-    $query .= " LIMIT ".$page.", ".$config['per_page'];
-    $data['limit'] = $config['per_page'];
-    $data['total_rows'] = $config['total_rows'];
-    $data['pagination'] = $this->pagination->create_links(); // Generate link pagination nya sesuai config diatas
-    $data['prod'] = $this->db->query($query)->result();
-    return $data;
+    $this->db->like('product_name',$keywords);
+    $this->db->or_like('product_price', $keywords);
+    $this->db->or_like('product_description', $keywords);
+    $this->db->or_like('category_name', $keywords);
+    $this->db->or_like('vendor_name', $keywords);
+    $this->db->join('category', 'products.product_category = category.category_id');
+    $this->db->join('vendor', 'vendor.vendor_id = products.product_vendor');
+    $qry = $this->db->get('products');
+    return $qry->result();
 }
 
 public function getAllProducts()
@@ -61,6 +32,12 @@ public function getAllProducts()
         $query=$this->db->get();
         return $query->result_array();
     }
+public function cekcartid()
+{
+    $query = $this->db->query("SELECT MAX(cart_id) as cartid from cart");
+        $hasil = $query->row();
+        return $hasil->cartid;
+}
 public function getAllCategory()
 {
     $this->db->select('*');
@@ -69,6 +46,7 @@ public function getAllCategory()
     $qry=$this->db->get();
     return $qry->result_array();
 }
+
 public function getProductDetail($id)
 {
     $this->db->select('*'); // <-- There is never any reason to write this line!
@@ -78,6 +56,16 @@ public function getProductDetail($id)
     $this->db->join('vendor', 'products.product_vendor = vendor.vendor_id');
     $query=$this->db->get();
     return $query->result_array();
+}
+public function getProductToCart($id)
+{
+    $this->db->select('*'); // <-- There is never any reason to write this line!
+    $this->db->from('products');
+    $this->db->where('products.product_id', $id);
+    $this->db->join('category', 'products.product_category = category.category_id');
+    $this->db->join('vendor', 'products.product_vendor = vendor.vendor_id');
+    $query=$this->db->get();
+    return $query->row();
 }
 public function getProductCategory($id)
 {

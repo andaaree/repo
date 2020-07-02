@@ -17,8 +17,10 @@
             <?php echo form_open('register/verif');?>
               <input type="text" name="key"/>
               <p><?php echo form_error('key'); ?></p>
+			  
 			  <input type="submit" name="submit" class="btn btn-info" value="Verify"/>
 			<?= form_close();?>
+			  <a href="<?= base_url('register/resend')?>">Resend</a>
 					</div><!--/sign up form-->
 				</div>
 			</div>

@@ -4,6 +4,7 @@
 				<div class="col-sm-4 col-sm-offset-1">
 					<div class="login-form"><!--login form-->
 						<h2>Login to your account</h2>
+						
                         <?php // Cetak jika ada notifikasi
                             if($this->session->flashdata('sukses')){ echo '<p class="warning" style="margin: 10px 20px;">'.$this->session->flashdata('sukses').'</p>'; }?>
                         

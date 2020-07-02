@@ -4,7 +4,7 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
+							<h2><span>F</span>-MART</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
 						</div>
 					</div>
@@ -108,15 +108,6 @@
 		</div>
 		
 	</footer><!--/Footer-->
-	
-
-  
-    <script src="<?php base_url('')?>assets/eshop/js/jquery.js"></script>
-	<script src="<?php base_url('')?>assets/eshop/js/bootstrap.min.js"></script>
-	<script src="<?php base_url('')?>assets/eshop/js/jquery.scrollUp.min.js"></script>
-	<script src="<?php base_url('')?>assets/eshop/js/price-range.js"></script>
-    <script src="<?php base_url('')?>assets/eshop/js/jquery.prettyPhoto.js"></script>
-    <script src="<?php base_url('')?>assets/eshop/js/main.js"></script>
 </body>
 </html>
 	

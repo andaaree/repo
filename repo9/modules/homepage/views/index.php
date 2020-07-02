@@ -36,7 +36,10 @@
                         <?php    
                         }    
                              0 ?>
-
+						<div class="col-sm-4">
+						<a class="btn btn-default add-to-cart" href="<?= base_url('homepage/products')?>">View More</a>
+						
+						</div>
 					</div><!--features_items-->
 					
 					<div class="recommended_items"><!--recommended_items-->
@@ -48,8 +51,8 @@
                                 foreach ($latest as $l):?>
                                     <?php
 								if ($l['tanggal'] >= $lastmonth) {?>
-								
-								<div class="<?php if( ($i && $i+1 && $i+2 ) < 3){echo 'item active';}else{echo 'item';}?>">
+								<?php if( ( ($i)< 3) && (($i+1) < 3)&& (($i+2) < 3) ){$crs = 'item active';}else{$crs = 'item';}?>
+								<div class="<?= $crs?>">
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">

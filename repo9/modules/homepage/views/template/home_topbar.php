@@ -6,8 +6,8 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +1 226 778 2887</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> admin@fmart.com</a></li>
+								<li><a href="https://wa.me/12267782887?text=Hello%20Admin%20I%20wanna%20ask%20about%20yourtexthere."><i class="fa fa-phone"></i> +1 226 778 2887</a></li>
+								<li><a href="mailto:yaelah001@gmail.com"><i class="fa fa-envelope"></i>admin@fmart.com</a></li>
 							<?php if (($this->uri->uri_string() == 'login') || ($this->session->userdata('role') == (0 && 2))) {?>
 								<li><a href="<?= base_url('')?>dashboard"><i class="fa fa-user"></i> Admin</a></li>
 							<?php } ?>	
@@ -69,8 +69,8 @@
 								<li><a href=""><i class="fa fa-user"></i> <?= $username?></a></li>
 								<li><a href="<?= base_url('login')?>/logout"><i class="fa fa-lock"></i> Logout</a></li>
 								<?php } ?>
-								<li><a href="<?= base_url('homepage')?>/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="<?= base_url('homepage')?>/order"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li><a href="<?= base_url('')?>/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="<?= base_url('')?>/order"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								
 							</ul>
 						</div>

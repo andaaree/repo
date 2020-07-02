@@ -25,15 +25,17 @@ class Splogin{
             $id = $rl->users_id;
             $level = $rl->role;
             $stat = $rl->status;
-            if($stat == "active"){
+            if($stat === "active"){
                 if ($level == 0) {
                 //set session user 
                 $this->CI->session->set_userdata('id', $id);
                 $this->CI->session->set_userdata('username', $username);
                 $this->CI->session->set_userdata('id_login', uniqid(rand()));
                 $this->CI->session->set_userdata('role',$level);
-                //redirect ke halaman dashboard 
+                $this->CI->session->set_userdata('status',$stat);
+                //redirect ke halaman dashboard
                 redirect(base_url('dashboard'));
+
                 }
                 elseif ($level !=0 && $level == 1) {
                 //set session user 
@@ -41,6 +43,7 @@ class Splogin{
                 $this->CI->session->set_userdata('username', $username);
                 $this->CI->session->set_userdata('id_login', uniqid(rand()));
                 $this->CI->session->set_userdata('role',$level);
+                $this->CI->session->set_userdata('status',$stat);
                 //redirect ke halaman awal 
                 redirect(base_url('homepage'));
                 }
@@ -49,17 +52,19 @@ class Splogin{
                     //redirect ke halaman login
                     redirect(base_url('login'));
                 }
-            }elseif ($stat == "disabled") {
+            }elseif ($stat === "disabled") {
                 $this->CI->session->set_flashdata('sukses', 'Account Anda sudah nonaktif');
                 redirect(base_url('login'));
-            }elseif  ($stat == "inactive") {
+            }elseif  ($stat === "inactive") {
                 $this->CI->session->set_flashdata('sukses', 'Account Anda belum terverifikasi');
+                $this->CI->session->set_userdata('username', $username);
                 redirect(base_url('register/verif'));
             }else {
                 $this->CI->session->set_flashdata('sukses', 'Account anda belum terdaftar');
                 redirect(base_url('login'));
             }
-        }else {
+        }
+        else {
             $this->CI->session->set_flashdata('sukses','Username atau password anda salah.. ');
             //redirect ke halaman login
             redirect(base_url('login'));
@@ -114,10 +119,19 @@ class Splogin{
         if ($this->CI->session->userdata('username') == (null || '') ) {
             $this->CI->session->set_flashdata('sukses', 'Anda belum login');
             redirect(base_url('login'));
-        }elseif (($this->CI->session->userdata('role') != 0) || ($this->CI->session->userdata('role') != 2)) {
-            $this->CI->session->set_flashdata('sukses', 'Access Denied');
-            redirect(base_url('homepage/e404'));
         }
+        switch ($this->CI->session->userdata('role')) {
+            case '1':
+                $this->CI->session->set_flashdata('sukses', 'Access Denied');
+                redirect(base_url('homepage/e404'));
+                break;
+            default:
+                break;
+        }
+        // if ($this->CI->session->userdata('role') !== "0" || $this->CI->session->userdata('role') !== "2") {
+        //     $this->CI->session->set_flashdata('sukses', 'Access Denied');
+        //     redirect(base_url('homepage/e404'));
+        // }
     }
     //Clearing SESSION
     public function logout(){

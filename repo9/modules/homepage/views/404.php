@@ -5,7 +5,7 @@
 		</div>
 		<div class="content-404">
 			<img src="<?= base_url('')?>./assets/eshop/images/404/404.png" class="img-responsive" alt="" />
-			<h1><b>OPPS!</b> <?= $denied ?></h1>
+			<h1><b>OOPS!</b> <?= $denied ?></h1>
 			<p>Uh... So it looks like you brock something. The page you are looking for has up and Vanished.</p>
 			<h2><a href="<?= base_url('')?>">Bring me back Home</a></h2>
 		</div>

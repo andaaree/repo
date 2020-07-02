@@ -34,6 +34,13 @@ class M_account extends CI_Model{
         $this->db->update('users', $data);
         $this->db->where('users.users_id', $user);
     }
+    function cekmail($uname){
+        $this->db->select('email');
+        $this->db->from('users');
+        $this->db->where('username', $uname);
+        $qry = $this->db->get();
+        return $qry->result_array();
+    }
 
     function sendMail($kunci,$usermail)
     {
@@ -47,7 +54,7 @@ class M_account extends CI_Model{
             'smtp_port' => '465',
             'newline' => "\r\n"
             ];
-    
+        
             $msg = "
             Please verify your email
             <br><br>

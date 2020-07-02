@@ -31,16 +31,19 @@ class Register extends CI_Controller {
            $this->regis();
         }
     }
+
     public function verif()
     {
+            $data['username'] = $this->session->userdata('username');
             $data['title'] = "Email Verification - Freuz Mart";
-            $data['username'] = "";
             $userID = $this->session->userdata('id');
             $data['cat'] = $this->m_account->getAllCategory();
             $key = $this->input->post('key');
             $done = $this->input->post('submit');
             $this->form_validation->set_rules('key', 'Token','required');
             if ($this->form_validation->run() == FALSE) {
+
+
                 $this->load->view('homepage/template/home_header', $data);
                 $this->load->view('homepage/template/home_topbar', $data);
                 $this->load->view('homepage/template/home_menu');
@@ -73,6 +76,7 @@ class Register extends CI_Controller {
                 }
             }
     }
+
     public function deleteAkun($user)
     {
         $stat = [
@@ -80,6 +84,21 @@ class Register extends CI_Controller {
         ];
         $this->db->update('users', $stat);
         $this->db->where('users.username', $user);
+    }
+    
+    public function resend()
+    {
+        $data['username'] = $this->session->userdata('username');
+        $key = rand(1000,5000);
+        $email = $this->m_account->cekmail($data['username']);
+        foreach ($email as $e) {
+            $usermail = $e;
+        }
+        $kirim = $this->m_account->sendMail($key,$usermail);
+
+        if ($kirim === true){
+            redirect(base_url('register/verif'));
+        }
     }
     private function regis()
     {
@@ -97,12 +116,8 @@ class Register extends CI_Controller {
 
             $usermail = $this->input->post('email');
             $kunci = $this->input->post('token');
-            
-
             $data['cat'] = $this->m_account->getAllCategory();
             $data['exist'] = $this->m_account->getAllUsers();
-
-
 
             foreach ($data['exist'] as $e) {
             if ($e['username'] == $cfg['username']) {
